@@ -1,0 +1,88 @@
+@import '../../../styles/styles.scss';
+
+.nav-list {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0 30px;
+    background-color: white;
+    list-style: none;
+    padding-right: 20px;
+
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
+
+    &.active {
+        display: flex;
+        width: 50vw;
+        flex-direction: column;
+        gap: 30px 0;
+    }
+}
+
+.has-sub-menu {
+    position: relative;
+    &:hover {
+        @media screen and (min-width: 768px) {
+            .sub-menu {
+                opacity: 1;
+                height: auto;
+                width: auto;
+                pointer-events: all;
+                transition: all 0.25s;
+                display: flex;
+                flex-direction: column;
+                gap: 20px 0;
+            }
+        }
+    }
+}
+
+.sub-menu {
+    list-style: none;
+    opacity: 0;
+    height: 1px;
+    width: 1px;
+    pointer-events: none;
+    transition: all 0.25s;
+    transform: translateY(100%);
+    background: rgba(255, 255, 255, 0.6);
+    padding-left: 5px;
+
+    @media screen and (min-width: 768px) {
+        position: absolute;
+        bottom: 0;
+        left: 20px;
+    }
+}
+
+.list-item {
+    &:hover > .list-link {
+        color: green;
+    }
+}
+
+.mobile-button {
+    display: none;
+
+    @media screen and (max-width: 768px) {
+        display: block;
+    }
+}
+
+.mobile-sub-menu {
+    & .sub-menu {
+        opacity: 1;
+        height: auto;
+        width: auto;
+        pointer-events: all;
+        transition: all 0.25s;
+        display: flex;
+        flex-direction: column;
+        gap: 20px 0;
+        position: absolute;
+        right: 0;
+        top: 10px;
+        transform: translateX(calc(100% + 20px));
+    }
+}

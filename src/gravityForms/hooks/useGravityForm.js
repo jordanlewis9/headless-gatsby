@@ -1,0 +1,79 @@
+import React from "react";
+import { createContext, useContext, useReducer } from "react";
+
+export const ACTION_TYPES = {
+  updateAddressFieldValue: 'updateAddressFieldValue',
+  updateCheckboxFieldValue: 'updateCheckboxFieldValue',
+  updateDateFieldValue: 'updateDateFieldValue',
+  updateEmailFieldValue: 'updateEmailFieldValue',
+  updateMultiSelectFieldValue: 'updateMultiSelectFieldValue',
+  updateNameFieldValue: 'updateNameFieldValue',
+  updatePhoneFieldValue: 'updatePhoneFieldValue',
+  updateRadioFieldValue: 'updateRadioFieldValue',
+  updateSelectFieldValue: 'updateSelectFieldValue',
+  updateTextAreaFieldValue: 'updateTextAreaFieldValue',
+  updateTextFieldValue: 'updateTextFieldValue',
+  updateTimeFieldValue: 'updateTimeFieldValue',
+  updateWebsiteFieldValue: 'updateWebsiteFieldValue',
+}
+
+function reducer(state, action) {
+  const getOtherFieldValues = (id) => state.filter(fieldValue => fieldValue.id !== id);
+
+  switch (action.type) {
+    case ACTION_TYPES.updateAddressFieldValue: {
+      const { id, addressValues } = action.fieldValue;
+      return [...getOtherFieldValues(id), { id, addressValues }];
+    }
+    case ACTION_TYPES.updateCheckboxFieldValue: {
+      const { id, checkboxValues } = action.fieldValue;
+      return [...getOtherFieldValues(id), { id, checkboxValues }];
+    }
+    case ACTION_TYPES.updateEmailFieldValue: {
+      const { id, emailValues } = action.fieldValue;
+      return [...getOtherFieldValues(id), { id, emailValues }];
+    }
+    case ACTION_TYPES.updateMultiSelectFieldValue: {
+      const { id, values } = action.fieldValue;
+      return [...getOtherFieldValues(id), { id, values }];
+    }
+    case ACTION_TYPES.updateNameFieldValue: {
+      const { id, nameValues } = action.fieldValue;
+      return [...getOtherFieldValues(id), { id, nameValues }];
+    }
+    case ACTION_TYPES.updateDateFieldValue:
+    case ACTION_TYPES.updatePhoneFieldValue:
+    case ACTION_TYPES.updateRadioFieldValue:
+    case ACTION_TYPES.updateSelectFieldValue:
+    case ACTION_TYPES.updateTextAreaFieldValue:
+    case ACTION_TYPES.updateTextFieldValue:
+    case ACTION_TYPES.updateTimeFieldValue:
+    case ACTION_TYPES.updateWebsiteFieldValue: {
+      const { id, value } = action.fieldValue;
+      return [...getOtherFieldValues(id), { id, value }];
+    }
+    default:
+      throw new Error(`Field value update operation not supported: ${action.type}.`);
+  }
+}
+
+const DEFAULT_STATE = [];
+
+const GravityFormContext = createContext({
+  state: DEFAULT_STATE,
+  dispatch: () => null
+});
+
+export function GravityFormProvider({ children }) {
+  const [state, dispatch] = useReducer(reducer, DEFAULT_STATE);
+
+  return (
+    <GravityFormContext.Provider value={{ state, dispatch }}>
+      {children}
+    </GravityFormContext.Provider>
+  );
+}
+
+const useGravityForm = () => useContext(GravityFormContext);
+
+export default useGravityForm;

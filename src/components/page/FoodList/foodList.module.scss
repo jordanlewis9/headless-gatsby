@@ -1,0 +1,12 @@
+@import '../../../styles/styles.scss';
+
+.food-list-ul {
+    list-style: none;
+    padding-left: 70px;
+    background-color: red;
+}
+
+.food-list-item {
+    color: orange;
+    text-decoration: underline;
+}
